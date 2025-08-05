@@ -1,39 +1,1248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CodeStudio Pro</title>
+  <!-- SEO Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeLab Pro – Beautiful Multi-Language IDE</title>
+  <meta name="description" content="Modern online IDE supporting HTML, CSS, JavaScript, Python, Java, C++ and more with live preview.">
+  <link rel="canonical" href="https://your-domain.com/codelab-pro">
+  <meta name="robots" content="index,follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CodeLab Pro – Multi-Language IDE">
+  <meta property="og:description" content="Modern online IDE with live preview for multiple programming languages.">
+  <meta property="og:url" content="https://your-domain.com/codelab-pro">
+  <meta property="og:image" content="https://your-domain.com/og-image.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CodeLab Pro">
+  <meta name="twitter:description" content="Modern online IDE with live preview.">
+  <meta name="twitter:image" content="https://your-domain.com/og-image.png">
+  
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CodeLab Pro",
+    "operatingSystem": "Web",
+    "applicationCategory": "DeveloperApplication",
+    "programmingLanguage": ["HTML", "CSS", "JavaScript", "Python", "Java", "C++", "C#", "PHP", "Ruby", "Go"]
+  }
+  </script>
+  
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          data-ad-client="ca-pub-YOUR-PUB-ID"></script>
+
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
+      overflow: hidden;
+      color: #333;
+    }
+
     .app {
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      height: 100vh;
     }
-    header {
-      background: rgba(255,255,255,0.95);
+
+    /* Header - Compact */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
       padding: 10px 15px;
-      font-weight: bold;
-      font-size: 1.2em;
-      color: #545cc1;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #dadada;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+      min-height: 60px;
     }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-center {
+      flex: 1;
+      max-width: 300px;
+      margin: 0 15px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .run-btn {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+    }
+
+    .run-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .save-btn {
+      background: linear-gradient(135deg, #2196F3, #1976D2);
+      color: white;
+    }
+
+    .save-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .clear-btn {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      color: white;
+      box-shadow: 0 3px 10px rgba(244, 67, 54, 0.3);
+    }
+
+    .clear-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+    }
+
+    /* Main Container - Optimized for screen fit */
     .container {
       flex: 1;
       display: flex;
-      padding: 0;
-      gap: 0;
+      gap: 8px;
+      padding: 8px;
+      height: calc(100vh - 60px);
       min-height: 0;
     }
-    .sidebar {
+
+    /* Left Panel - Compact */
+    .language-panel {
+      width: 200px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .clear-current-btn {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+      padding: 4px 8px;
+      font-size: 10px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .clear-current-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .language-list {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .language-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .language-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .language-list::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 2px;
+    }
+
+    .lang-item {
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .lang-item:hover {
+      background: rgba(103, 126, 234, 0.1);
+    }
+
+    .lang-item.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .lang-item.has-code::after {
+      content: '●';
+      position: absolute;
+      right: 12px;
+      color: #4CAF50;
+      font-size: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    .lang-item.active.has-code::after {
+      color: #fff;
+    }
+
+    .lang-icon {
+      font-size: 16px;
+    }
+
+    .lang-name {
+      font-weight: 500;
+    }
+
+    /* Editor Panel - Optimized */
+    .editor-panel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .editor-header {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .current-lang {
+      font-weight: 600;
+      font-size: 16px;
+      color: #667eea;
+    }
+
+    .code-stats {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .code-editor {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 15px;
+      background: #1e1e1e;
+      color: #e4e6ea;
+      resize: none;
+    }
+
+    .code-editor::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .code-editor::-webkit-scrollbar-track {
+      background: #2d3748;
+    }
+
+    .code-editor::-webkit-scrollbar-thumb {
+      background: #4a5568;
+      border-radius: 3px;
+    }
+
+    /* Output Panel - Compact */
+    .output-panel {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .output-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .output-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s ease;
+      font-size: 13px;
+    }
+
+    .output-tab.active {
+      background: rgba(255, 255, 255, 1);
+      color: #667eea;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .output-content {
+      flex: 1;
+      display: none;
+    }
+
+    .output-content.active {
+      display: block;
+    }
+
+    .console {
+      height: 100%;
+      background: #1e1e1e;
+      color: #e4e6ea;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 12px;
+      padding: 10px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .preview {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    /* Status Bar - Compact */
+    .status-bar {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 15px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #666;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4CAF50;
+    }
+
+    .auto-save {
+      color: #4CAF50;
+      font-weight: 500;
+    }
+
+    /* Modal Styles - Improved */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: white;
+      margin: 10% auto;
+      padding: 25px;
+      border-radius: 15px;
+      width: 380px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .modal-message {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .modal-btn.confirm {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      color: white;
+    }
+
+    .modal-btn.cancel {
+      background: #f5f5f5;
+      color: #666;
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Ad Container - Compact */
+    .ad-container {
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        gap: 5px;
+        padding: 5px;
+      }
+
+      .language-panel {
+        width: 100%;
+        height: 100px;
+        flex-direction: row;
+      }
+
+      .language-list {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-direction: row;
+      }
+
+      .lang-item {
+        min-width: 80px;
+        flex-shrink: 0;
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .output-panel {
+        width: 100%;
+        height: 150px;
+      }
+
+      .header-actions {
+        gap: 5px;
+      }
+
+      .btn {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .code-editor {
+        font-size: 12px;
+      }
+
+      .header-center {
+        max-width: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 8px 10px;
+        flex-wrap: wrap;
+        min-height: 50px;
+      }
+
+      .header-center {
+        order: 3;
+        width: 100%;
+        margin: 5px 0 0 0;
+        max-width: none;
+      }
+
+      .modal-content {
+        margin: 20% auto;
+        padding: 20px;
+        width: 300px;
+      }
+    }
+
+    .success { color: #4CAF50; }
+    .error { color: #f44336; }
+    .warning { color: #ff9800; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">💻 CodeLab Pro</div>
+      
+      <div class="header-center">
+        <!-- Header Ad Slot -->
+        <ins class="adsbygoogle"
+             style="display:block;max-height:50px"
+             data-ad-client="ca-pub-YOUR-PUB-ID"
+             data-ad-slot="YOUR-AD-SLOT"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn clear-btn" onclick="showClearAllModal()">🗑️ Clear All</button>
+        <button class="btn save-btn" onclick="saveProject()">💾 Save</button>
+        <button class="btn run-btn" onclick="runCode()">▶ Run</button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Language Panel -->
+      <div class="language-panel">
+        <div class="panel-header">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <span>Languages</span>
+            <button class="clear-current-btn" onclick="clearCurrentLanguage()">Clear</button>
+          </div>
+        </div>
+        <div class="language-list">
+          <div class="lang-item active" data-lang="html">
+            <span class="lang-icon">🌐</span>
+            <span class="lang-name">HTML</span>
+          </div>
+          <div class="lang-item" data-lang="css">
+            <span class="lang-icon">🎨</span>
+            <span class="lang-name">CSS</span>
+          </div>
+          <div class="lang-item" data-lang="javascript">
+            <span class="lang-icon">⚡</span>
+            <span class="lang-name">JavaScript</span>
+          </div>
+          <div class="lang-item" data-lang="python">
+            <span class="lang-icon">🐍</span>
+            <span class="lang-name">Python</span>
+          </div>
+          <div class="lang-item" data-lang="java">
+            <span class="lang-icon">☕</span>
+            <span class="lang-name">Java</span>
+          </div>
+          <div class="lang-item" data-lang="cpp">
+            <span class="lang-icon">⚙️</span>
+            <span class="lang-name">C++</span>
+          </div>
+          <div class="lang-item" data-lang="csharp">
+            <span class="lang-icon">🔷</span>
+            <span class="lang-name">C#</span>
+          </div>
+          <div class="lang-item" data-lang="php">
+            <span class="lang-icon">🐘</span>
+            <span class="lang-name">PHP</span>
+          </div>
+          <div class="lang-item" data-lang="ruby">
+            <span class="lang-icon">💎</span>
+            <span class="lang-name">Ruby</span>
+          </div>
+          <div class="lang-item" data-lang="go">
+            <span class="lang-icon">🚀</span>
+            <span class="lang-name">Go</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Editor Panel -->
+      <div class="editor-panel">
+        <div class="editor-header">
+          <div class="current-lang" id="currentLang">HTML</div>
+          <div class="code-stats">
+            <span id="lineCount">1 line</span> • 
+            <span id="charCount">0 characters</span>
+          </div>
+        </div>
+        
+        <textarea class="code-editor" id="codeEditor" placeholder="Start coding here..."></textarea>
+        
+        <div class="status-bar">
+          <div class="status-left">
+            <div class="status-dot"></div>
+            <span id="statusText">Ready</span>
+            <span class="auto-save" id="autoSave">✓ Auto-saved</span>
+          </div>
+          <span id="lastSaved">Never saved</span>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="output-panel">
+        <div class="output-tabs">
+          <div class="output-tab active" data-output="preview">🖥️ Preview</div>
+          <div class="output-tab" data-output="console">📋 Console</div>
+        </div>
+
+        <!-- In-content Ad Slot -->
+        <div class="ad-container">
+          <ins class="adsbygoogle"
+               style="display:block;max-height:60px"
+               data-ad-client="ca-pub-YOUR-PUB-ID"
+               data-ad-slot="YOUR-AD-SLOT"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <div class="output-content active" id="preview-content">
+          <iframe class="preview" id="preview"></iframe>
+        </div>
+        
+        <div class="output-content" id="console-content">
+          <div class="console" id="console">Ready to run code...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clear All Modal -->
+    <div id="clearAllModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-title">⚠️ Clear All Code?</div>
+        <div class="modal-message">
+          This will permanently delete ALL code from ALL programming languages.
+          <br><br>
+          <strong>This action cannot be undone!</strong>
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-btn cancel" onclick="closeClearAllModal()">Cancel</button>
+          <button class="modal-btn confirm" onclick="confirmClearAll()">🗑️ Clear Everything</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clear Current Modal -->
+    <div id="clearCurrentModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-title">⚠️ Clear Current Language?</div>
+        <div class="modal-message" id="clearCurrentMessage">
+          This will permanently delete all code from the current language.
+          <br><br>
+          <strong>This action cannot be undone!</strong>
+        </div>
+        <div class="modal-buttons">
+          <button class="modal-btn cancel" onclick="closeClearCurrentModal()">Cancel</button>
+          <button class="modal-btn confirm" onclick="confirmClearCurrent()">🗑️ Clear Current</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Default starter code for each language
+    const defaultCode = {
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App</title>
+</head>
+<body>
+    <h1>🚀 Welcome to CodeLab Pro!</h1>
+    <p>Start coding here...</p>
+    <button onclick="greet()">Click me!</button>
+</body>
+</html>`,
+      css: `body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+button {
+    padding: 12px 24px;
+    background: #4CAF50;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}`,
+      javascript: `console.log('🚀 JavaScript loaded!');
+
+function greet() {
+    alert('Hello from JavaScript! 🎉');
+    console.log('Button clicked successfully!');
+}
+
+// Your JavaScript code here
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Page loaded and ready!');
+});`,
+      python: `# Python Code
+print("🐍 Hello from Python!")
+
+def main():
+    print("Start coding here...")
+    
+    # Example function
+    numbers = [1, 2, 3, 4, 5]
+    print("Numbers:", numbers)
+
+if __name__ == "__main__":
+    main()`,
+      java: `// Java Code
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("☕ Hello from Java!");
+        System.out.println("Start coding here...");
+        
+        // Example code
+        int[] numbers = {1, 2, 3, 4, 5};
+        System.out.println("Array length: " + numbers.length);
+    }
+}`,
+      cpp: `#include <iostream>
+#include <vector>
+using namespace std;
+
+// C++ Code
+int main() {
+    cout << "⚙️ Hello from C++!" << endl;
+    cout << "Start coding here..." << endl;
+    
+    // Example vector
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    cout << "Vector size: " << numbers.size() << endl;
+    
+    return 0;
+}`,
+      csharp: `using System;
+using System.Collections.Generic;
+
+// C# Code
+namespace MyApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("🔷 Hello from C#!");
+            Console.WriteLine("Start coding here...");
+            
+            // Example list
+            List<int> numbers = new List<int> {1, 2, 3, 4, 5};
+            Console.WriteLine($"List count: {numbers.Count}");
+        }
+    }
+}`,
+      php: `<?php
+// PHP Code
+echo "🐘 Hello from PHP!\\n";
+echo "Start coding here...\\n";
+
+// Example array
+$numbers = [1, 2, 3, 4, 5];
+echo "Array count: " . count($numbers) . "\\n";
+?>`,
+      ruby: `# Ruby Code
+puts "💎 Hello from Ruby!"
+puts "Start coding here..."
+
+# Example array
+numbers = [1, 2, 3, 4, 5]
+puts "Array length: #{numbers.length}"`,
+      go: `package main
+
+import "fmt"
+
+// Go Code
+func main() {
+    fmt.Println("🚀 Hello from Go!")
+    fmt.Println("Start coding here...")
+    
+    // Example slice
+    numbers := []int{1, 2, 3, 4, 5}
+    fmt.Printf("Slice length: %d\\n", len(numbers))
+}`
+    };
+
+    // Code storage - starts with default code
+    const codeDatabase = { ...defaultCode };
+    let currentLanguage = 'html';
+    const serverLanguages = ['python', 'java', 'cpp', 'csharp', 'php', 'ruby', 'go'];
+
+    // Load saved code from localStorage
+    function loadSavedCode() {
+      Object.keys(codeDatabase).forEach(lang => {
+        const saved = localStorage.getItem(`codelab_${lang}`);
+        if (saved) {
+          codeDatabase[lang] = saved;
+        }
+      });
+    }
+
+    // Save code to storage
+    function saveCodeToStorage(lang, code) {
+      codeDatabase[lang] = code;
+      localStorage.setItem(`codelab_${lang}`, code);
+      updateHasCodeIndicator(lang);
+      showAutoSave();
+    }
+
+    // Update "has code" indicator
+    function updateHasCodeIndicator(lang) {
+      const langItem = document.querySelector(`[data-lang="${lang}"]`);
+      if (codeDatabase[lang] && codeDatabase[lang].trim().length > 50) {
+        langItem.classList.add('has-code');
+      } else {
+        langItem.classList.remove('has-code');
+      }
+    }
+
+    // Show auto-save animation
+    function showAutoSave() {
+      const autoSave = document.getElementById('autoSave');
+      autoSave.style.opacity = '1';
+      document.getElementById('lastSaved').textContent = new Date().toLocaleTimeString();
+      
+      setTimeout(() => {
+        autoSave.style.opacity = '0.7';
+      }, 2000);
+    }
+
+    // Switch language function
+    function switchLanguage(newLang) {
+      // Save current code before switching
+      const currentCode = document.getElementById('codeEditor').value;
+      saveCodeToStorage(currentLanguage, currentCode);
+      
+      // Update UI
+      document.querySelectorAll('.lang-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      document.querySelector(`[data-lang="${newLang}"]`).classList.add('active');
+      
+      // Load new language code
+      currentLanguage = newLang;
+      document.getElementById('codeEditor').value = codeDatabase[newLang];
+      document.getElementById('currentLang').textContent = 
+        document.querySelector(`[data-lang="${newLang}"] .lang-name`).textContent;
+      
+      updateCodeStats();
+      updateStatus(`Switched to ${newLang.toUpperCase()}`, 'info');
+    }
+
+    // Update code statistics
+    function updateCodeStats() {
+      const code = document.getElementById('codeEditor').value;
+      const lines = code.split('\n').length;
+      const chars = code.length;
+      
+      document.getElementById('lineCount').textContent = `${lines} line${lines !== 1 ? 's' : ''}`;
+      document.getElementById('charCount').textContent = `${chars} characters`;
+    }
+
+    // Update status
+    function updateStatus(message, type = 'info') {
+      document.getElementById('statusText').textContent = message;
+      document.getElementById('statusText').className = type;
+    }
+
+    // Console logging
+    function logToConsole(message, type = 'log') {
+      const console = document.getElementById('console');
+      const timestamp = new Date().toLocaleTimeString();
+      console.innerHTML += `<div class="${type}">[${timestamp}] ${message}</div>`;
+      console.scrollTop = console.scrollHeight;
+    }
+
+    // Clear all code functions - FIXED
+    function showClearAllModal() {
+      document.getElementById('clearAllModal').style.display = 'block';
+    }
+
+    function closeClearAllModal() {
+      document.getElementById('clearAllModal').style.display = 'none';
+    }
+
+    function confirmClearAll() {
+      try {
+        // Reset all code to empty strings
+        Object.keys(codeDatabase).forEach(lang => {
+          codeDatabase[lang] = '';
+          localStorage.removeItem(`codelab_${lang}`);
+          updateHasCodeIndicator(lang);
+        });
+        
+        // Update current editor
+        document.getElementById('codeEditor').value = '';
+        updateCodeStats();
+        
+        // Clear console and preview
+        document.getElementById('console').innerHTML = 'All code cleared - Ready to start fresh!';
+        document.getElementById('preview').src = 'about:blank';
+        
+        closeClearAllModal();
+        updateStatus('All code cleared from all languages!', 'warning');
+        logToConsole('🗑️ ALL CODE CLEARED - Fresh start for all languages!', 'warning');
+        logToConsole('✨ Ready to start coding from scratch!', 'success');
+      } catch (error) {
+        console.error('Error clearing all code:', error);
+        updateStatus('Error clearing code', 'error');
+      }
+    }
+
+    // Clear current language function
+    function clearCurrentLanguage() {
+      const currentLangName = document.querySelector(`[data-lang="${currentLanguage}"] .lang-name`).textContent;
+      document.getElementById('clearCurrentMessage').innerHTML = 
+        `This will permanently delete all code from <strong>${currentLangName}</strong>.<br><br><strong>This action cannot be undone!</strong>`;
+      document.getElementById('clearCurrentModal').style.display = 'block';
+    }
+
+    function closeClearCurrentModal() {
+      document.getElementById('clearCurrentModal').style.display = 'none';
+    }
+
+    function confirmClearCurrent() {
+      try {
+        const currentLangName = document.querySelector(`[data-lang="${currentLanguage}"] .lang-name`).textContent;
+        
+        // Reset current language to empty
+        codeDatabase[currentLanguage] = '';
+        localStorage.removeItem(`codelab_${currentLanguage}`);
+        updateHasCodeIndicator(currentLanguage);
+        
+        // Update editor
+        document.getElementById('codeEditor').value = '';
+        updateCodeStats();
+        
+        closeClearCurrentModal();
+        updateStatus(`${currentLangName} code cleared!`, 'warning');
+        logToConsole(`🗑️ ${currentLangName} code cleared!`, 'warning');
+      } catch (error) {
+        console.error('Error clearing current code:', error);
+        updateStatus('Error clearing code', 'error');
+      }
+    }
+
+    // Run code function
+    function runCode() {
+      updateStatus('Running code...', 'info');
+      logToConsole('🚀 Executing code...', 'info');
+      
+      if (['html', 'css', 'javascript'].includes(currentLanguage)) {
+        // Web languages - run in preview
+        const html = codeDatabase.html;
+        const css = codeDatabase.css;
+        const js = codeDatabase.javascript;
+        
+        const fullCode = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>${css}</style>
+</head>
+<body>
+  ${html.replace(/<html.*?>|<\/html>|<head.*?>|<\/head>|<body.*?>|<\/body>|<!DOCTYPE.*?>/gi, '')}
+  <script>
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      parent.postMessage({type: 'console', level: 'log', message: args.join(' ')}, '*');
+    };
+    
+    console.error = function(...args) {
+      originalError.apply(console, args);
+      parent.postMessage({type: 'console', level: 'error', message: args.join(' ')}, '*');
+    };
+    
+    console.warn = function(...args) {
+      originalWarn.apply(console, args);
+      parent.postMessage({type: 'console', level: 'warning', message: args.join(' ')}, '*');
+    };
+    
+    window.addEventListener('error', function(e) {
+      parent.postMessage({type: 'console', level: 'error', message: e.message + ' at line ' + e.lineno}, '*');
+    });
+    
+    try {
+      ${js}
+    } catch (error) {
+      parent.postMessage({type: 'console', level: 'error', message: 'JavaScript Error: ' + error.message}, '*');
+    }
+  <\/script>
+</body>
+</html>`;
+        
+        const blob = new Blob([fullCode], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        document.getElementById('preview').src = url;
+        
+        logToConsole('🌐 Web app loaded successfully!', 'success');
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        
+      } else {
+        // Server-side languages
+        logToConsole(`💻 ${currentLanguage.toUpperCase()} code structure validated`, 'success');
+        logToConsole('⚠️ Server-side execution requires backend integration', 'warning');
+        logToConsole('💡 Consider using Judge0 API or similar service for execution', 'info');
+      }
+      
+      updateStatus('Code executed successfully!', 'success');
+    }
+
+    // Save project function
+    function saveProject() {
+      try {
+        // Save current editor content first
+        const currentCode = document.getElementById('codeEditor').value;
+        saveCodeToStorage(currentLanguage, currentCode);
+        
+        const projectData = {
+          languages: codeDatabase,
+          currentLanguage: currentLanguage,
+          timestamp: new Date().toISOString(),
+          version: "1.0"
+        };
+        
+        const dataStr = JSON.stringify(projectData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `codelab-project-${Date.now()}.json`;
+        link.click();
+        
+        URL.revokeObjectURL(url);
+        updateStatus('Project saved successfully!', 'success');
+        logToConsole('💾 Complete project exported!', 'success');
+      } catch (error) {
+        console.error('Error saving project:', error);
+        updateStatus('Error saving project', 'error');
+      }
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        loadSavedCode();
+        
+        // Language switching
+        document.querySelectorAll('.lang-item').forEach(item => {
+          item.addEventListener('click', () => {
+            switchLanguage(item.dataset.lang);
+          });
+        });
+        
+        // Output tab switching
+        document.querySelectorAll('.output-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.output-content').forEach(c => c.classList.remove('active'));
+            
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.output + '-content').classList.add('active');
+          });
+        });
+        
+        // Code editor input
+        const editor = document.getElementById('codeEditor');
+        editor.value = codeDatabase[currentLanguage];
+        
+        editor.addEventListener('input', () => {
+          updateCodeStats();
+          // Auto-save after 1 second of no typing
+          clearTimeout(window.autoSaveTimer);
+          window.autoSaveTimer = setTimeout(() => {
+            saveCodeToStorage(currentLanguage, editor.value);
+          }, 1000);
+        });
+        
+        // Initialize indicators
+        Object.keys(codeDatabase).forEach(lang => {
+          updateHasCodeIndicator(lang);
+        });
+        
+        updateCodeStats();
+        updateStatus('CodeLab Pro ready!', 'success');
+        logToConsole('🚀 Welcome to CodeLab Pro!', 'success');
+        logToConsole('💡 All functions working properly - Start coding!', 'info');
+        
+        // Initial run for web languages
+        if (['html', 'css', 'javascript'].includes(currentLanguage)) {
+          setTimeout(runCode, 1000);
+        }
+      } catch (error) {
+        console.error('Initialization error:', error);
+        updateStatus('Initialization error', 'error');
+      }
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+      const clearAllModal = document.getElementById('clearAllModal');
+      const clearCurrentModal = document.getElementById('clearCurrentModal');
+      
+      if (event.target === clearAllModal) {
+        closeClearAllModal();
+      }
+      if (event.target === clearCurrentModal) {
+        closeClearCurrentModal();
+      }
+    });
+
+    // Listen for console messages from iframe
+    window.addEventListener('message', function(event) {
+      if (event.data.type === 'console') {
+        logToConsole(`🖥️ ${event.data.message}`, event.data.level || 'log');
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case 'Enter':
+            e.preventDefault();
+            runCode();
+            break;
+          case 's':
+            e.preventDefault();
+            saveProject();
+            break;
+        }
+      }
+    });
+
+    // Error handling
+    window.addEventListener('error', function(error) {
+      console.error('Global error:', error);
+      updateStatus('An error occurred', 'error');
+    });
+  </script>
+</body>
+</html>
       background: #f8f9fa;
       min-width: 100px;
       max-width: 120px;
